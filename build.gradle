@@ -15,15 +15,22 @@ repositories {
 }
 
 dependencies {
+    // Base web server + JAX-RS
     compile 'io.undertow:undertow-core:2.0.29.Final'
     compile 'io.undertow:undertow-servlet:2.0.29.Final'
     compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.30'
     runtimeOnly 'org.glassfish.jersey.inject:jersey-hk2:2.30'
     runtimeOnly 'javax.activation:javax.activation-api:1.2.0'
 
+    // Dependency injection
+    compile 'com.google.inject:guice:4.2.2'
+    compile 'org.glassfish.hk2:guice-bridge:2.6.1'
+
+    // Logging
     runtimeOnly 'ch.qos.logback:logback-classic:1.2.3'
     compile 'org.slf4j:slf4j-api:1.7.30'
 
+    // Tests
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
     testCompile('io.rest-assured:rest-assured:4.2.0')

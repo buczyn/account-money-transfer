@@ -6,11 +6,8 @@ import io.undertow.server.handlers.PathHandler;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
-import org.glassfish.jersey.jaxb.internal.XmlJaxbElementProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.ServletException;
 
 public class Application {
 
@@ -30,7 +27,7 @@ public class Application {
                     .setDeploymentName("bank.war")//
                     .addServlets(//
                             Servlets.servlet("BankServlet", org.glassfish.jersey.servlet.ServletContainer.class)//
-                                    .addInitParam("javax.ws.rs.Application", "org.example.amt.rest.BankApplication")//
+                                    .addInitParam("javax.ws.rs.Application", "org.example.amt.rest.AccountResourceConfig")//
                                     .addMapping("/*"));
 
             DeploymentManager manager = Servlets.defaultContainer().addDeployment(servletBuilder);
