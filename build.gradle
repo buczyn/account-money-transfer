@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'io.undertow:undertow-core:2.0.29.Final'
+    compile 'io.undertow:undertow-servlet:2.0.29.Final'
+    compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.30'
+    compile 'org.glassfish.jersey.inject:jersey-hk2:2.30'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+    testCompile('io.rest-assured:rest-assured:4.2.0')
+}
+
+test {
+    useJUnitPlatform()
+}
