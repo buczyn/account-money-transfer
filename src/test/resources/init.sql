@@ -1,0 +1,1 @@
+INSERT INTO accounts(account_id, amount) VALUES (1, 100);

@@ -29,3 +29,15 @@ Alternatively
 ```bash
 ./gradlew runShadow
 ```
+
+## REST API
+For simplicity account looks like this:
+```$xslt
+{
+  "accountId": 1,
+  "balance" : 123.45
+}
+```
+Following operations are available
+* `POST /accounts` - creating account (account sent in request body)
+* `GET /accounts/{id}` - retrieving account
