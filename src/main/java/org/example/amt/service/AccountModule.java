@@ -17,6 +17,8 @@ public class AccountModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(AccountService.class).to(DefaultAccountService.class);
+        bind(AccountSettingsService.class).to(HardcodedAccountSettingsService.class);
+        bind(AccountsDao.class).to(H2AccountsDao.class);
     }
 
     @Provides @Singleton

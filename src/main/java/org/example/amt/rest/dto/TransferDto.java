@@ -8,10 +8,13 @@ import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
-public class AccountDto {
+public class TransferDto {
     @NonNull
-    private Long accountId;
+    private Long accountTo;
 
     @NonNull
-    private BigDecimal balance;
+    private BigDecimal amount;
+
+    @NonNull
+    private String transactionId;
 }

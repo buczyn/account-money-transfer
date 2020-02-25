@@ -1,1 +1,10 @@
 INSERT INTO accounts(account_id, amount) VALUES (1, 100);
+INSERT INTO accounts(account_id, amount) VALUES (2, 100);
+INSERT INTO accounts(account_id, amount) VALUES (10, 100);
+INSERT INTO accounts(account_id, amount) VALUES (11, 110);
+INSERT INTO accounts(account_id, amount) VALUES (12, 120);
+INSERT INTO accounts(account_id, amount) VALUES (13, 130);
+INSERT INTO accounts(account_id, amount) VALUES (14, 10000);
+INSERT INTO accounts(account_id, amount) VALUES (15, 150);
+INSERT INTO accounts(account_id, amount) VALUES (16, 160);
+INSERT INTO accounts(account_id, amount) VALUES (17, 160);

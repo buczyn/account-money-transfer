@@ -5,13 +5,17 @@ import lombok.NonNull;
 import lombok.Value;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Value
 @Builder
-public class Account {
+public class TransferRequest {
     @NonNull
-    private Long id;
+    private String transactionId;
 
     @NonNull
-    private BigDecimal balance;
+    private Long receiverAccountId;
+
+    @NonNull
+    private BigDecimal amount;
 }
