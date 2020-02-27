@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
 
-class AccountResourceTest extends BaseTest {
+class AccountRestApiTest extends ServerRunningBaseTest {
 
     @Test
     void getAccountShouldReturnExistingAccount() {

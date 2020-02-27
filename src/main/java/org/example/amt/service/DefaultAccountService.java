@@ -30,7 +30,7 @@ class DefaultAccountService implements AccountService {
     public void createAccount(long id, BigDecimal balance) throws AccountException {
         checkNewAccountConditions(id, balance);
 
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = getConnection()) {
             accountsDao.createAccount(id, balance, conn);
         } catch (SQLException e) {
             throw new AccountException("Error creating account", e);
@@ -57,7 +57,7 @@ class DefaultAccountService implements AccountService {
 
     @Override
     public Optional<Account> getAccount(long id) throws AccountException {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = getConnection()) {
             return accountsDao.findAccount(id, conn);
         } catch (SQLException e) {
             throw new AccountException("Cannot get account", e);
@@ -71,12 +71,24 @@ class DefaultAccountService implements AccountService {
         final String transactionId = transferRequest.getTransactionId();
         Connection conn = null;
         try {
-            conn = dataSource.getConnection();
+            conn = getConnection();
+            // Do the checks without transaction. This includes "static" checks (not depending on the account balance).
+            // Some checks are kind of optimistic checks (like if the balance is big enough), but later on transfer will
+            // fail anyway. In production code we can find out exact reason of failure and produce right response.
+            // Optimistic checks however are much cheaper, so it is worth to make them anyway.
             checkTransferConditions(fromId, transferRequest, conn);
 
+            // Limit the transaction to only dept and credit accounts and write "transaction log" to affect performance
+            // as little as possible.
             conn.setAutoCommit(false);
-            accountsDao.decreaseBalance(fromId, amount, conn);
-            accountsDao.increaseBalance(toId, amount, conn);
+            // Ensure predictable locks order, to prevent deadlocks.
+            if (fromId < toId) {
+                accountsDao.decreaseBalance(fromId, amount, conn);
+                accountsDao.increaseBalance(toId, amount, conn);
+            } else {
+                accountsDao.increaseBalance(toId, amount, conn);
+                accountsDao.decreaseBalance(fromId, amount, conn);
+            }
             TransferCompleted transfer = TransferCompleted.builder()
                     .transactionId(transactionId)
                     .receiverAccountId(toId)
@@ -137,7 +149,7 @@ class DefaultAccountService implements AccountService {
 
     @Override
     public List<TransferCompleted> getTransfers(long id) throws AccountException {
-        try (Connection conn = dataSource.getConnection()) {
+        try (Connection conn = getConnection()) {
             if (!accountsDao.accountExists(id, conn)) {
                 throw new AccountNotFoundException(id);
             }
@@ -145,5 +157,12 @@ class DefaultAccountService implements AccountService {
         } catch (SQLException e) {
             throw new AccountException("Cannot get transfers", e);
         }
+    }
+
+    private Connection getConnection() throws SQLException {
+        Connection connection = dataSource.getConnection();
+        connection.setAutoCommit(true);
+        connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+        return connection;
     }
 }

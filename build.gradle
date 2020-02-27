@@ -50,4 +50,5 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    forkEvery 1
 }
