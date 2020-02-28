@@ -113,3 +113,8 @@ Following operations are available:
   Response statuses:
   * 200 OK - for success
   * 404 NOT_FOUND - account does not exist
+
+## Tests
+There are two types of tests: 
+* Functional: end-to-end (integration) tests checking the REST interface (using REST Assured)
+* Stress: Stress testing only business logic to ensure consitency of the system when many parallel transfers are done
