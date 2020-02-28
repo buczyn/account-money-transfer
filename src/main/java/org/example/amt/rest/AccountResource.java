@@ -87,6 +87,9 @@ public class AccountResource {
         } catch (AmountForbiddenToTransferException | AmountNotCurrencyValueException e) {
             log.warn("Invalid amount for transfer.", e);
             return Response.status(CONFLICT).header(FAIL_REASON_HEADER, "INVALID_AMOUNT").build();
+        } catch (AccountForbiddenToTransferException e) {
+            log.warn("Invalid account for transfer.", e);
+            return Response.status(CONFLICT).header(FAIL_REASON_HEADER, "INVALID_ACCOUNT").build();
         } catch (BalanceTooLowException e) {
             log.warn("Too low balance to make transfer", e);
             return Response.status(CONFLICT).header(FAIL_REASON_HEADER, "BALANCE_TOO_LOW").build();

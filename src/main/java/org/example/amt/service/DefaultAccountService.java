@@ -126,6 +126,10 @@ class DefaultAccountService implements AccountService {
         BigDecimal amount = transferRequest.getAmount();
         String transactionId = transferRequest.getTransactionId();
 
+        if (fromId == toId) {
+            throw new AccountForbiddenToTransferException(fromId, toId);
+        }
+
         checkCorrectCurrencyValue(amount);
 
         AccountSettings settings = accountSettingsService.getSettings(fromId);

@@ -214,6 +214,18 @@ class AccountRestApiTest extends ServerRunningBaseTest {
     }
 
     @Test
+    void makeTransferShouldFailWhenSameAccountsAreUsed() {
+        given().
+                contentType(ContentType.JSON).
+                body("{\"transactionId\": \"abc1234\", \"accountTo\": 10, \"amount\": 10}").
+        when().
+                post("/accounts/10/transfers").
+        then().
+                statusCode(409).
+                header("X-Fail-Reason", "INVALID_ACCOUNT");
+    }
+
+    @Test
     void makeTransferShouldFailWhenThereIsNotEnoughBalanceOnAccount() {
         given().
                 contentType(ContentType.JSON).
